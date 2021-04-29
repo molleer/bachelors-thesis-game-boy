@@ -1,0 +1,43 @@
+\chapter{Method}
+
+%Hur gruppen har tänkt sig att genomföra arbetet är val av metod. I konstruktionsinriktade projekt kan detta tyckas vara självklart, men det kan även i detta fall finnas viktiga metodval. Helt litteraturbaserade kandidatarbeten är också genomförbara men även en litteraturstudie ska ha en ordnad och strukturerad arbetsprocess och metodik.
+
+%Metodavsnittet bör också beskriva hur data ska samlas in och hur det konstateras hur väl projektets mål har uppfyllts. I praktiska projekt kan detta vara genom mätningar av olika typer. Det kan också vara genom datorsimuleringar. Vilka aspekter är viktiga för att veta om syftet med projektet har uppnåtts? Datainsamling kan också vara en del av en testning eller annan utvärdering av den produkt som tas fram i ett konstruktionsinriktat projekt.
+
+%Antal studieobjekt/testfall och hur de väljs? Typ av undersökningsmetod/testmetod? Hur insamlade data/testresultat ska analyseras och presenteras? Hur ser processen ut för litteraturarbetet?
+
+%\begin{itemize}
+%    \item SCRUM - Roller - KPIer
+%    \item Varför den valda implementationsmetoden?
+%\end{itemize}
+
+\section{Working process}
+    
+When developing software, it is beneficial to use a flexible work process. When encountering problems or if the scope of the project changes, it should be possible to change direction without requiring the authors to rewrite large parts of the project. In order to achieve this flexibility, the working process was formed around the agile development framework Scrum\cite{Scrum}.\\
+    
+The sprint duration was initially set to one week as it is usually a suitable duration for the size of a project this scale. The three roles; 'Meeting Chairman' who leads each meeting, 'Secretary' who writes the meeting protocols and 'Tester' who makes sure all tests pass and is responsible for handling pull requests, was created in order to delegate special responsibilities. The members which are assigned to each role change for each sprint such that none of the group members lag behind in the development process, whilst also spreading the decision power between all group members. \\
+    
+To monitor the project progress, KPIs are used to measure aspects which we find important. In the end of each sprint, each member graded the following aspects from 1 to 5:
+
+\begin{itemize}
+    \item \textbf{'Stress'} - 1 means you do not feel stressed at all, 5 means you are extremely stressed
+    \item \textbf{'Perceived participation'} - 1 means you did not participate nor work on the project at all, 5 means you dedicated all the time you could to the project
+    \item '\textbf{Effectiveness'} - 1 means you think the work process is very ineffective, 5 means the work process is very effective
+    \item \textbf{'User story Estimation'} - 1 means the user stories of the sprint was poorly evaluated, 5 means the user stories of the sprint accurately estimated the effort required to finish the user story
+\end{itemize}
+    
+\textbf{'Experience points gained'} is also a metric used as a KPI, but it is not evaluated based on assessments from the project members. Instead, 'Experience points gained' is the total sum of the score of each user story which was finished during the sprint.
+
+
+\section{Tools and technologies}
+
+\subsection{Programming language}
+    The language used in the project is C++. The language was chosen because it is fast, and supports the bit-level manipulation that is required when emulating hardware.
+\subsection{Architecture}
+    The model of the Game Boy and the components displaying the graphics and handling inputs are to be kept separate. To ensure this, the group decided to use the Model-View-Controller design pattern.
+\subsection{Graphics and GUI}
+    OpenGL was chosen for the graphics and GUI. It was chosen since it is simple to use, fast and open source.
+\subsection{Testing}
+    To be able to test the code, the group chose to use 'Google Testing Framework'. GTF supports unit tests and works well with the CI tool Travis. In addition to unit tests the group decided to use specific test ROMs, to test whether specific instructions and interactions between components are implemented correctly.
+\subsection{Version control}
+    Git was chosen as the tool for version control. The group chose to host the repository on github.com, since the group had experience using it. Github also supports good integration with Slack and Travis.

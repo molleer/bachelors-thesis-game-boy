@@ -1,0 +1,81 @@
+\begin{comment}
+
+
+
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\input{settings/Settings}
+\newcommand{\oneLineTitle}{Game Boy Emulation}
+\newcommand{\multiLineTitle}[1]{Game Boy Emulation}
+% The term [#1] indicates that there will be 1 rowbreak to split the title into two pieces, first part before \\[#1] and second part after. If you have a very long title and need to split it up into 3 rows, just use \\[#1] multiple times.
+
+\newcommand{\oneLineSubtitle}{The Lame Boy}
+
+
+
+
+\begin{document} 
+
+% COVER PAGE, TITLE PAGE AND IMPRINT PAGE
+\pagenumbering{roman}			% Roman numbering (starting with i (one)) until first main chapter
+\input{frontmatter/Titlepage}
+
+% ABSTRACT
+\newpage
+\input{sections/Abstract}
+\newpage
+\input{sections/Sammandrag}
+% ACKNOWLEDGEMENTS
+\newpage
+\input{sections/Acknowledgements}
+
+
+% TABLE OF CONTENTS
+\newpage
+\tableofcontents
+
+% OTHER FRONTMATTER
+% List of figures (add to table of contents)
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listfigurename} 
+\listoffigures
+% List of tables (add to table of contents)
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listtablename}  
+\listoftables
+\cleardoublepage
+
+\input{sections/Terminology}
+% START OF MAIN DOCUMENT
+\thispagestyle{empty}
+\clearpage
+\setcounter{page}{1}
+\pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
+\setlength{\parskip}{0pt plus 1pt}
+\input{sections/Introduction}
+\input{sections/Theory}
+\input{sections/Method}
+\input{sections/Results}
+\input{sections/Discussion}
+\input{sections/Conclusions}
+%\input{sections/KeyTakeaways}
+
+% REFERENCES / BIBLIOGRAPHY
+%\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\printbibliography
+% APPENDICES
+%\cleardoublepage
+%\appendix
+% \setcounter{page}{1}
+% \pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
+
+%\input{backmatter/Appendix}
+
+%\newpage				% Create empty back of side
+%\thispagestyle{empty}
+%\mbox{}
+
+
+\end{document}
+
+\end{comment}
