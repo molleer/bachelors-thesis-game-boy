@@ -8,7 +8,7 @@ There is very little, if any, official documentation available regarding the spe
 \label{sec:CPUDiscussion}
 While implementing the CPU, a problem regarding the number of machine cycles an operation required was encountered. The problem was that the source used for the operation codes \cite{OpCodes}, which displays flags affected, number of bytes used and number of machine cycles, was not the same as used in Blargg's test ROMs \cite{Blargg}. As the test ROMs have been run on the real hardware and passed the tests, the team considered the test ROMs to be using the correct amount of cycles \cite{TestROMsResult}. A process similar to what Gekkio and Díaz applies in their testing.
 \\\\
-Looking at Blargg's test suite regarding the CPU tests, one might note that the emulator does in fact not pass all tests. Among the tests which it does not pass are the \texttt{interrupt\_time}, \texttt{mem\_timing} and \texttt{mem\_timing-2} \cite{Blargg}. As mentioned in section \ref{sec:resultsarchitecture}, the different units need to be synchronised and act in accordance with each other. There are indications that the reason for the tests failing is that it is possible for the CPU to execute too many machine cycles before allowing the other units to catch up or interrupts to intercept. Meaning that the current implementation of the CPU does not allow for timer updates mid-instruction. In hindsight, it is possible that the problems encountered as a result of this choice could have been avoided. One possible solution could be to allow the other units to catch up to the CPU mid-instruction every time it reads from or writes to memory.
+Looking at Blargg's test suite regarding the CPU tests, one might note that the emulator does in fact not pass all tests. Among the tests which it does not pass are the \texttt{interrupt\_time}, \texttt{mem\_timing} and \texttt{mem\_timing-2} \cite{Blargg}. As mentioned in Section \ref{sec:resultsarchitecture}, the different units need to be synchronised and act in accordance with each other. There are indications that the reason for the tests failing is that it is possible for the CPU to execute too many machine cycles before allowing the other units to catch up or interrupts to intercept. Meaning that the current implementation of the CPU does not allow for timer updates mid-instruction. In hindsight, it is possible that the problems encountered as a result of this choice could have been avoided. One possible solution could be to allow the other units to catch up to the CPU mid-instruction every time it reads from or writes to memory.
 \\
 
 \begin{comment}
@@ -37,10 +37,10 @@ When first implementing the PPU it always needed to ``fetch'' the registers it n
 This made it clear that it would be better to make the different device classes keep their own registers.
 With this change it was necessary but also natural to make use of individual read and write functions for each device, which in turn would be called from the main read/write function located in the MMU class.
 \\\\
-In the memory map, seen in figure \ref{fig:memory-map}, there are some areas which are empty.
+In the memory map, seen in Figure \ref{fig:memory-map}, there are some areas which are empty.
 Although Nintendo says use of these areas are prohibited they still have a specific behaviour confirmed on all official hardware \cite{pandocsechoram}.
 The seemingly empty range \texttt{0xE000}-\texttt{0xFDFF} is by the community called ``Echo RAM'' and is on the original hardware mapped to the actual RAM addresses.
-For example, writing a value to address \texttt{0xE001} would have the same effect as writing to the address \texttt{0xA001}. Same goes with reading values.
+For example, writing a value to address \texttt{0xE001} would have the same effect as writing to the address \texttt{0xA001}. The same goes for reading values.
 We have chosen to not implement this behaviour mainly because it is prohibited by Nintendo and is expected to be unused in licensed games. 
 Additionally, this behaviour does not add any functionality that cannot be achieved by other means.
 Furthermore, if it is used in unlicensed games it is easily implemented down the line.  
@@ -51,7 +51,7 @@ Implementing more MBCs would yield less return for the time spent and time was t
 Limiting access to different memory areas under certain circumstances has not been implemented, as this is expected to be respected by game developers. For example, during a DMA-transfer the CPU, on the original hardware, is limited to only access HRAM during that period.
 
 \subsection{The Pixel Processing Unit}
-As mentioned both in sections \ref{sec:CPUDiscussion} and \ref{sec:PPU}, the different units are synchronised with the CPU by supplying the other units with the number of cycles the CPU has consumed after having completed each instruction. This made simulating the PPU accurately impossible and the approach of drawing one scanline at a time was instead chosen. The biggest limitation resulting from this choice is that the emulator does not support writing to PPU hardware registers mid-scanline. This results in graphical glitches in a few games, but is not a problem for a vast majority of games. However, the emulator supports writing to hardware registers between scanlines, enabling visual effects such as the one shown in figure \ref{fig:flappyboy}:
+As mentioned both in Sections \ref{sec:CPUDiscussion} and \ref{sec:PPU}, the different units are synchronised with the CPU by supplying the other units with the number of cycles the CPU has consumed after having completed each instruction. This made simulating the PPU accurately impossible and the approach of drawing one scanline at a time was instead chosen. The biggest limitation resulting from this choice is that the emulator does not support writing to PPU hardware registers mid-scanline. This results in graphical glitches in a few games, but is not a problem for a vast majority of games. However, the emulator supports writing to hardware registers between scanlines, enabling visual effects such as the one shown in Figure \ref{fig:flappyboy}:
 
 
 \begin{figure}[H]
@@ -84,9 +84,9 @@ Implementing sound was initially considered out of scope, as it was deemed too c
 %Creating a small separate project, only for checking out the the OpenAL library what helpful since it allowed us to only keep the code we wanted. It also allowed us to check that the library worked for all group members which used different platforms.
 Only implementing one channel at a time was a good strategy as once the first channel had been implemented, it was easy to implement more. The biggest difference between  the sound channels was how the audio was generated. Thankfully they could be implemented similarly without changing much but the audio data provided to the OpenAL API.
 \\\\
-However, the devil is in the details, and for the APU there are a lot of them. There have been several issues where sound continues to play when it should have been muted, sound beginning to play from nowhere when it is not suppose to etc. Most of these issues have been resolved, but there are still existing issues with some games where the audio does not play at all.
+However, the devil is in the details, and for the APU there are a lot of them. There have been several issues where sound continues to play when it should have been muted, sound beginning to play from nowhere when it is not supposed to etc. Most of these issues have been resolved, but there are still existing issues with some games where the audio does not play at all.
 \\\\
-The room for improvement is also apparent in the results of running Blargg's \texttt{dmg\_sound} \cite{Blargg} test ROM which, as seen in figure \ref{fig:blargg_dmg_sound}. Almost all tests fail due to these small details not being implemented. On the other hand, having sound implemented in any form and in some ways working as expected, is exceeding the initial expectations.
+The room for improvement is also apparent in the results of running Blargg's \texttt{dmg\_sound} \cite{Blargg} test ROM which, as seen in Figure \ref{fig:blargg_dmg_sound}. Almost all tests fail due to these small details not being implemented. On the other hand, having sound implemented in any form and in some ways working as expected, is exceeding the initial expectations.
 
 \section{Accuracy}
 One thing to always consider when discussing the development of emulators is the accuracy of the emulation, and specifically how accurate the emulator aims to be. Some developers choose to try to emulate the exact behaviour of the hardware, including what today could be considered bugs, flaws, or mistakes. Others seize the opportunity and correct some behaviour of the emulator which they deem incorrect or faulty.
@@ -101,11 +101,11 @@ One of the compromises made was considering the choice of further developing the
 
 Some components of the Game Boy are more important than others, which means these have to be more accurately emulated than auxiliary components. The most vital component to be emulated accurately is the CPU since it is the central component of both the Game Boy and the emulator. Any bugs caused by the CPU may result in obscure behaviours which can be close to impossible to debug. Getting Blargg's \texttt{cpu\_instrs} and \texttt{instr\_timing} \cite{Blargg} test ROMs working was therefore highly prioritised in order to validate the accuracy of the CPU and avoid any of these potential bugs.
 \\\\
-The APU, which on the other hand could be considered an auxiliary component, was not given the same attention in regards to accuracy as the consequences of having a defective APU is not as severe. The worst thing that could happen with the APU is the absence, or constant presence, of sound, but all other parts of the emulator would still work as intended. This is because, in contrast to the CPU, no other component strictly relies on the APU to perform its function accurately. The results of this approach to accuracy is visible in figure \ref{fig:blargg_dmg_sound} which shows only test \texttt{06} passing when running Blargg's \texttt{dmg\_sound} \cite{Blargg} APU test ROM.
+The APU, which on the other hand could be considered an auxiliary component, was not given the same attention in regards to accuracy as the consequences of having a defective APU is not as severe. The worst thing that could happen with the APU is the absence, or constant presence, of sound, but all other parts of the emulator would still work as intended. This is because, in contrast to the CPU, no other component strictly relies on the APU to perform its function accurately. The results of this approach to accuracy is visible in Figure \ref{fig:blargg_dmg_sound} which shows only test \texttt{06} passing when running Blargg's \texttt{dmg\_sound} \cite{Blargg} APU test ROM.
 
 
 \section{Ethics}
-As mentioned in section \ref{sec:introEthics}, the emulation of a proprietary product comes with both ethical and legal complications, some of which are discussed in this section.
+As mentioned in Section \ref{sec:introEthics}, the emulation of a proprietary product comes with both ethical and legal complications, some of which are discussed in this section.
 \label{sec:Ethics}
 \subsection{Legality of emulators vs. ROMs}
 Most digital copyrighted material have some sort of controversy around them. Gaming consoles and their respective emulators are no different. Like with most subjects touching on potential piracy and copyright infringement, there is a huge grey zone whether or not something is legal or illegal, and subsequently if something is right or wrong. 
@@ -128,7 +128,7 @@ Due to the difficulty of interpreting the EU law as a layperson when discussing 
 
 If game ROMs are not acquirable for some reason, there are a multitude of test-ROMs online that are available to make sure the emulator and its parts work as intended \cite{testROMs}. These are free to use and has benefited the troubleshooting of this project immensely without any risk for potential copyright infringement. There are also games developed by the community, i.e. non-proprietary ROMs, specifically for emulators which have been used for testing.
 
-
+\newpage
 \subsection{Sharing knowledge}
 By creating an emulator for an old console one gets to thoroughly understand how the very basic components of a gaming system work together to create a complete console. By making the emulator's source code available publicly, it might help increase the knowledge of these types of systems among students, enthusiasts and developers alike. As long as no proprietary code is shared, there is no obvious way this could harm anyone. If the Game Boy was not discontinued one could argue that an emulator would deter people from buying an expensive console. However, since the Game Boy is no longer being sold, that risk is effectively eliminated. On the contrary, finding an emulator might even contribute to further interest in Nintendo products which would most likely benefit them.
 

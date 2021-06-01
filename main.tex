@@ -3,7 +3,7 @@
 %        MODIFIED BY JAKOB JARMAR 2016 AND GUSTAV ÖRTENBERG 2019
 
 % IMPORT SETTINGS
-\documentclass[12pt,a4paper,twoside,openright]{report}
+\documentclass[12pt,a4paper]{report}
 \input{include/settings/Settings}
 
 %\addbibresource{include/backmatter/References.bib}
@@ -13,7 +13,7 @@
 \newcommand{\multiLineTitle}[1]{Game Boy Emulation}
 % The term [#1] indicates that there will be 1 rowbreak to split the title into two pieces, first part before \\[#1] and second part after. If you have a very long title and need to split it up into 3 rows, just use \\[#1] multiple times.
 
-% \newcommand{\oneLineSubtitle}{Subtitle\todo{Subtitle?}}
+\newcommand{\oneLineSubtitle}{Emulating a Complex System}
 
 \addbibresource{include/backmatter/References.bib}
 
@@ -73,20 +73,19 @@
 \input{include/Conclusions}
 % REFERENCES / BIBLIOGRAPHY
 
-%asdasdasd\cite{AntonioND}
-
+\defbibnote{Pandocs}{Note that between the first and second edition of this thesis, the website of Pan Docs hosted by the Game Boy Development community at \textit{gbdev.io} was updated and all links used as references therefore stopped working. These are now referred to using  \textit{The Wayback Machine} \cite{WayBackMachine} and therefore contain a prefix of \textit{web.archive} specifying a date preceding the changes which broke the initial references. \\\\  }
 \cleardoublepage
 \addcontentsline{toc}{chapter}{Bibliography}
-\printbibliography
+\printbibliography[prenote=Pandocs]
 
 
 
 
 % APPENDICES
-\cleardoublepage
-\appendix
-\setcounter{page}{1}
-\pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
+%\cleardoublepage
+%\appendix
+%\setcounter{page}{1}
+%\pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
 
 %\input{include/backmatter/Appendix_1}
 
