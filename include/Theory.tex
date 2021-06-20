@@ -126,7 +126,7 @@ The Object Attribute Map (OAM) is the area where sprite data is stored. The OAM 
 %\subsubsection{Joypad}
 \textbf{Address: \texttt{0xFF00}}
 \\
-The Joypad is the device that connects the users input with the system. 
+The Joypad is the device that connects the user's input with the system. 
 There are eight buttons on the Game Boy, four directional buttons: up, down, left and right, and four action buttons: A, B, Start and Select.
 The buttons have two states, pressed or not pressed. 
 These states of the buttons are stored at address \texttt{0xFF00} as a 2x4 matrix \cite{pandocsjoypad}.
@@ -305,7 +305,7 @@ The purpose of the Pixel Processing Unit (PPU) is to interpret the data residing
 \subsection{Composing the frame}
 \label{sec:PPU_image}
 
-The frame is composed of three layers: Background, Window and Sprites, rendered in that order. These layers are in turn composed of tiles, 8x8 bitmaps of colour indices, which are stored in VRAM. When rendering the picture, these indices map to one of the four colours using palette tables \cite{gameboyarchitecture}. The following is a description of the components used to form the frame.\\
+The frame is composed of three layers: Background, Window and Sprites, rendered in that order. These layers are in turn composed of tiles, 8x8 bitmaps of colour indices, which are stored in VRAM. When rendering the picture, these indices map to one of the four colours using palette tables, which in the original Game Boy was four shades of grey over a green background \cite{gameboyarchitecture}. The following is a description of the components used to form the frame.\\
 \\
 \textbf{Tiles} - 
 As previously mentioned, the tiles are 8x8 bitmaps stored in RAM, 16 bytes per tile. This is because each row of a tile is formed by combining the bits of two bytes. The bytes are organised in two memory regions called \textit{Tile sets}; one ranging from \texttt{0x8000} to \texttt{0x9000} and one ranging from \texttt{0x8800} to \texttt{0x9800}, see Figure \ref{fig:ppu_tile_set}. These two tile sets overlap and which one to use is determined by a bit in the LCD Control register (LCDC). The first of the two uses unsigned addressing for tile IDs, while the second one uses signed addressing. \cite{gameboyarchitecture}.
@@ -406,7 +406,8 @@ The PPU also has a variety of utility registers, described here \cite{pandocsVid
     \item LY (Line Y) - Keeps track of the current scanline. (R)
     \item LYC (Line Y Compare) - Used in the STAT register to generate interrupts. (R/W)
     \item WY and WX (Window X \& Y) - Represents the coordinate on the display where the top left pixel of the window should be displayed. (R/W)
-    \item BGP (Background Palette) - The palette for the background. Maps the colour indices 0-3 to the colours white (0), light grey (1), dark grey (2) and black (3). (R/W)
+%    \item BGP (Background Palette) - The palette for the background. Maps the colour indices 0-3 to the colours white (0), light grey (1), dark grey (2) and black (3). (R/W)
+    \item BGP (Background Palette) - The palette for the background. Maps the indices 0-3 to white (0), light grey (1), dark grey (2) or black (3). (R/W)
     \item OBP0 (Object Palette 0) - The first of two sprite palettes. Functions similarly to BGP except colour index 0 represents transparent pixels. (R/W)
     \item OBP1 (Object Palette 0) - The second of two sprite palettes. Functions exactly like OBP0. (R/W)
     \item DMA (Direct Memory Access) - Used for triggering a DMA transfer. More information can be found in Section \ref{sec:DMA_transfer}.  (R/W)
